@@ -263,7 +263,7 @@ function App() {
       setStatus(''); setTxHash('');
       if (accounts.length === 0) {
         setAccount(null); setLockContract(null); setReadLock(null);
-        setMyLocks([]); setTotalLocked('0'); setLockCount(0); setNextUnlock(null);
+        setMyLocks([]); setTotalLocked('0'); setLockCount(0); 
       } else {
         await connectWallet();
       }
