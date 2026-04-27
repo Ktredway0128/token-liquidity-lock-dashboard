@@ -128,7 +128,6 @@ function App() {
   // stats
   const [totalLocked,   setTotalLocked]   = useState('0');
   const [lockCount,     setLockCount]     = useState(0);
-  const [nextUnlock,    setNextUnlock]    = useState(null);
 
   // my locks
   const [myLocks,       setMyLocks]       = useState([]);
@@ -201,7 +200,6 @@ function App() {
       setMyLocks(enriched);
       setTotalLocked(ethers.utils.formatUnits(total, 18));
       setLockCount(locks.filter(l => !l.withdrawn).length);
-      setNextUnlock(next);
     } catch (err) {
       console.error('Error loading data:', err);
     }
