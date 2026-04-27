@@ -86,37 +86,6 @@ function CountdownTimer({ unlockTime, withdrawn }) {
   );
 }
 
-function ProgressBar({ unlockTime, lockTime }) {
-  const [pct, setPct] = useState(0);
-
-  useEffect(() => {
-    const tick = () => {
-      const now     = Math.floor(Date.now() / 1000);
-      const start   = Number(lockTime);
-      const end     = Number(unlockTime);
-      const elapsed = now - start;
-      const total   = end - start;
-      setPct(Math.min(100, Math.max(0, (elapsed / total) * 100)));
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [unlockTime, lockTime]);
-
-  return (
-    <div style={{ height: '8px', borderRadius: '9999px', backgroundColor: 'rgba(15,76,92,0.12)', overflow: 'hidden', marginBottom: '6px' }}>
-      <div style={{
-        height: '100%',
-        width: `${pct}%`,
-        borderRadius: '9999px',
-        background: pct >= 100
-          ? `linear-gradient(90deg, ${GREEN}, #22c55e)`
-          : `linear-gradient(90deg, ${BRONZE}, #cd7f32)`,
-        transition: 'width 1s linear',
-      }} />
-    </div>
-  );
-}
 
 function App() {
   const [lockContract,  setLockContract]  = useState(null);
