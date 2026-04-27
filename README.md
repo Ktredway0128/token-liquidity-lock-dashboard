@@ -11,6 +11,10 @@ A production-ready React dashboard for the LiquidityLock smart contract. Allows 
 
 > ⚠️ This dashboard connects to contracts deployed on Sepolia testnet. A full security audit is strongly recommended before any mainnet deployment.
 
+## LIVE DEMO
+
+[token-liquidity-lock-dashboard.netlify.app](https://token-liquidity-lock-dashboard.netlify.app)
+
 ## PROJECT GOALS
 
 The purpose of this dashboard is to give projects and their communities a clear, trustless interface for managing liquidity locks.
