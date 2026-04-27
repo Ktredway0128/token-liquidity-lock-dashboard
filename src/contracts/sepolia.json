@@ -1,11 +1,5 @@
 {
-  "SampleToken": {
-    "address": "0x6259A01559E34aF1b2e16cF4396c2aDFAFa8a83B"
-  },
-  "TimelockController": {
-    "address": "0x42FFC12FaFbF81D04E97Fce3bB08d4e8c10c201d"
-  },
-  "TokenGovernance": {
-    "address": "0xA7a65E7Ca137977d36e804034bD059B1eD713591"
+  "LiquidityLock": {
+    "address": "0x1BA24F8ebA2d865493b8e4B3D6cd1bDe8d42338B"
   }
 }
