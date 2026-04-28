@@ -54,29 +54,28 @@ function Spinner() {
   );
 }
 
-function CountdownTimer({ unlockTime, withdrawn }) {
+function CountdownTimer({ unlockTime, withdrawn, blockTime }) {
   const [timeLeft, setTimeLeft] = useState('');
   const [done, setDone]         = useState(false);
 
   useEffect(() => {
+    const fetchTime = Math.floor(Date.now() / 1000);
     const tick = () => {
-      const now  = Math.floor(Date.now() / 1000);
+      const elapsed = Math.floor(Date.now() / 1000) - fetchTime;
+      const now = blockTime + elapsed;
       const diff = Number(unlockTime) - now;
       if (diff <= 0) { setDone(true); setTimeLeft('Unlocked'); return; }
       const d = Math.floor(diff / 86400);
       const h = Math.floor((diff % 86400) / 3600);
       const m = Math.floor((diff % 3600) / 60);
       const s = diff % 60;
-      setTimeLeft(
-        d > 0
-          ? `${d}d ${h}h ${m}m ${s}s`
-          : `${h}h ${m}m ${s}s`
-      );
+      setTimeLeft(d > 0 ? `${d}d ${h}h ${m}m ${s}s` : `${h}h ${m}m ${s}s`);
     };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [unlockTime]);
+  }, [unlockTime, blockTime]);
+
 
   if (withdrawn) return <span style={{ color: '#1a5c38', fontWeight: 700 }}>✓ Tokens have been Withdrawn</span>;
   return (
@@ -108,6 +107,7 @@ function App() {
   const [tokenSymbol,   setTokenSymbol]   = useState('');
   const [tokenName,     setTokenName]     = useState('');
   const [lockFilter,    setLockFilter]    = useState('active');
+  const [blockTime,     setBlockTime]     = useState(Math.floor(Date.now() / 1000));
 
   // status
   const [status,        setStatus]        = useState('');
@@ -120,7 +120,9 @@ function App() {
   const loadDashboardData = useCallback(async (_readLock, _account) => {
     try {
       const locks = await _readLock.getLocks(_account);
-      const now   = Math.floor(Date.now() / 1000);
+      const block = await _readLock.provider.getBlock('latest');
+      const now = block.timestamp;
+      setBlockTime(block.timestamp);
 
       let total = ethers.BigNumber.from(0);
       let next  = null;
@@ -571,7 +573,7 @@ function App() {
                             Unlocks: {unlockDate.toLocaleDateString()} at {unlockDate.toLocaleTimeString()}
                           </p>
                           <p className="text-3xl font-bold">
-                            <CountdownTimer unlockTime={lock.unlockTime} withdrawn={lock.withdrawn} />
+                            <CountdownTimer unlockTime={lock.unlockTime} withdrawn={lock.withdrawn} blockTime={blockTime} />
                           </p>
                         </div>
 
